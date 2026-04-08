@@ -1,0 +1,28 @@
+# ─── Buddy AI Dependencies ────────────────────────────────
+# Install: pip install -r requirements.txt
+
+# ── Core ──────────────────────────────────────────────────
+python-dotenv>=1.0.0         # Environment variable loading
+requests>=2.31.0             # HTTP client (for Ollama, SerpAPI)
+
+# ── Search ────────────────────────────────────────────────
+duckduckgo-search>=5.0.0     # Free web search (no API key)
+
+# ── LLM Providers (install the one you use) ──────────────
+# openai>=1.0.0              # Uncomment for OpenAI
+# litellm>=1.0.0             # Uncomment for LiteLLM (multi-provider)
+
+# ── Web UI ────────────────────────────────────────────────
+flask>=3.0.0                 # Web server
+flask-cors>=4.0.0            # CORS support for API
+
+# ── Voice (optional) ─────────────────────────────────────
+# pyttsx3>=2.90               # Text-to-speech (offline)
+# SpeechRecognition>=3.10.0   # Speech-to-text
+# PyAudio>=0.2.13             # Microphone input (needed by SpeechRecognition)
+
+# ── System info (optional) ───────────────────────────────
+# psutil>=5.9.0               # Detailed system information
+
+# ── Development ───────────────────────────────────────────
+# pytest>=7.0.0               # Testing
