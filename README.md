@@ -1,131 +1,74 @@
-# 🤖 Buddy AI — Your Sarcastic AI Best Friend
+# WEDNESDAY — Experimental Personal AI Assistant
 
-> *"Like JARVIS, but with actual personality and zero corporate energy."*
+> A modular local-first AI assistant prototype with personality, search, voice experiments, and a web interface.
 
-Buddy AI is an open-source, modular AI assistant that actually feels like talking to a friend — a really smart, slightly savage, but ultimately loyal one. It searches the web, runs system commands, remembers your conversations, and does it all while roasting you just the right amount.
+WEDNESDAY is an experimental Python assistant project exploring conversational AI, local model support, web search, voice I/O, memory, and personality-driven responses.
 
-## Features
+## Status
 
-- **Personality Engine** — Four mood modes: `funny`, `serious`, `savage`, `chill`
-- **Real-time Web Search** — DuckDuckGo + SerpAPI fallback, no hallucinations
-- **System Commands** — Open apps, files, run shell commands
-- **Conversation Memory** — Remembers context within sessions
-- **Plugin System** — Drop-in plugin architecture for extending capabilities
-- **Voice I/O** — Speech recognition + text-to-speech (optional)
-- **Custom Wake Name** — Call it whatever you want
-- **Dual Interface** — CLI terminal mode + React web UI
-- **Debug/Logging** — Full logging with debug mode
+**Prototype / refactor in progress.**
 
-## Architecture
+The current public snapshot contains a mixture of legacy flat modules and newer package-oriented code. Some entry-point imports still reference modules that are not yet present in this repository, so the project should not currently be treated as a one-command production install.
 
-```
-buddy-ai/
-├── main.py                 # Entry point & orchestrator
-├── config.py               # All configuration
-├── requirements.txt        # Python dependencies
-├── core/
-│   ├── __init__.py
-│   ├── brain.py            # LLM interface (OpenAI / Ollama / LiteLLM)
-│   └── orchestrator.py     # Routes queries to the right module
-├── personality/
-│   ├── __init__.py
-│   ├── engine.py           # Humor/tone transformation layer
-│   └── prompts.py          # System prompts for each mood
-├── memory/
-│   ├── __init__.py
-│   └── context.py          # Short-term conversation memory
-├── tools/
-│   ├── __init__.py
-│   ├── search.py           # Web search (DuckDuckGo + SerpAPI)
-│   ├── system_cmd.py       # System commands (open apps, files)
-│   └── summarizer.py       # Summarize search results
-├── plugins/
-│   ├── __init__.py
-│   ├── loader.py           # Plugin discovery & loading
-│   └── example_plugin.py   # Example plugin template
-├── frontend/
-│   └── index.html          # React web UI (single-file)
-├── tests/
-│   └── test_core.py        # Unit tests
-├── logs/                   # Log output directory
-└── docs/
-    └── SETUP.md            # Detailed setup guide
+This README intentionally reflects the real state of the code instead of advertising unsupported setup steps.
+
+## Current files
+
+```text
+wednesday/
+├── main.py
+├── web_server.py
+├── config.py
+├── engine.py
+├── prompts.py
+├── search.py
+├── summarizer.py
+├── requirements.txt
+├── .env.example
+├── .gitignore
+├── LICENSE
+└── README.md
 ```
 
-## Quick Start
+## Intended capabilities
 
-```bash
-# 1. Clone the repo
-git clone https://github.com/yourusername/buddy-ai.git
-cd buddy-ai
-
-# 2. Create virtual environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Set up your .env file
-cp .env.example .env
-# Edit .env with your API keys (or use Ollama for free local LLM)
-
-# 5. Run it
-python main.py
-```
+- Multiple personality modes
+- Local LLM support through Ollama
+- Optional OpenAI/LiteLLM providers
+- Web search and summarization
+- Session memory
+- Voice input/output experiments
+- CLI and browser-based interfaces
+- Environment-based configuration
 
 ## Configuration
 
-Edit `config.py` or set environment variables:
+Copy the example environment file and fill in only the services you actually use:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `BUDDY_NAME` | `Buddy` | What you call the assistant |
-| `USER_NAME` | `Boss` | What it calls you |
-| `MOOD` | `funny` | Default mood: funny/serious/savage/chill |
-| `LLM_PROVIDER` | `ollama` | LLM backend: openai/ollama/litellm |
-| `LLM_MODEL` | `llama3` | Model name |
-| `OPENAI_API_KEY` | — | Required only if using OpenAI |
-| `SERPAPI_KEY` | — | Optional, for SerpAPI search |
-| `VOICE_ENABLED` | `false` | Enable voice input/output |
-| `DEBUG` | `false` | Enable debug logging |
-
-## Mood Modes
-
-- **Funny** 😄 — Default. Witty, jokey, meme-aware
-- **Serious** 🧠 — Drops the act, gives you straight answers
-- **Savage** 🔥 — Maximum roast energy, still helpful
-- **Chill** 😎 — Relaxed, laid-back, surfer vibes
-
-Switch anytime: type `!mood savage` in chat.
-
-## LLM Options
-
-| Provider | Cost | Setup |
-|----------|------|-------|
-| **Ollama** (recommended) | Free | `ollama pull llama3` |
-| **OpenAI** | Paid | Set `OPENAI_API_KEY` |
-| **LiteLLM** | Varies | Supports 100+ providers |
-
-## Plugin System
-
-Drop a Python file in `plugins/` with this structure:
-
-```python
-PLUGIN_NAME = "my_plugin"
-PLUGIN_DESCRIPTION = "Does something cool"
-PLUGIN_COMMANDS = ["!mycommand"]
-
-def handle(command: str, args: str) -> str:
-    return "Plugin response here"
+```bash
+cp .env.example .env
 ```
 
-It auto-loads on startup.
+Never commit the resulting `.env` file or any real API keys. The repository's `.gitignore` already excludes `.env`, logs, virtual environments, Python cache files, IDE metadata, and build output.
+
+## Development roadmap
+
+Before calling the project stable, the next cleanup should:
+
+1. Consolidate the flat modules into one consistent package structure.
+2. Restore or rewrite the missing orchestrator layer referenced by `main.py` and `web_server.py`.
+3. Add a minimal automated test suite.
+4. Verify CLI startup from a fresh clone.
+5. Verify web startup from a fresh clone.
+6. Pin and review dependencies.
+
+## Security
+
+- API keys belong in environment variables only.
+- Do not expose local system-command features to untrusted remote users.
+- Keep any web/API server bound to localhost unless authentication and authorization are deliberately added.
+- Review dependencies before using the project on a sensitive machine.
 
 ## License
 
-MIT — do whatever you want with it.
-
-## Contributing
-
-PRs welcome. Keep the vibe alive. No corporate energy allowed.
+MIT
